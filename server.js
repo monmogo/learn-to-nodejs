@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const app = express();
-
+app.use(bodyParser.json());
 const db = require("./config/key.js").mongoURI;
 mongoose
     .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -19,5 +20,6 @@ user.save((err, data) => {
     if (err) console.log(err);
     console.log(data);
 });
+app.use("/", require("./router/User"));
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, console.log(`SERVER RUN WITH PORT ${PORT}`));
